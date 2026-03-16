@@ -7,7 +7,7 @@
 Production-ready starter templates with CI/CD, security, and deploy pipelines baked in.<br>
 Clone a repo. Write your app. Push to deploy.
 
-[<img src="https://img.shields.io/badge/lang-한국어-blue" alt="한국어">](#한국어) [<img src="https://img.shields.io/badge/lang-English-green" alt="English">](#starter-series)
+[<img src="https://img.shields.io/badge/lang-English-green" alt="English">](#starter-series)
 
 </div>
 
@@ -39,43 +39,6 @@ Clone a repo. Write your app. Push to deploy.
 gh repo create my-app --template starter-series/docker-deploy-starter
 # Write your app, then push — CI/CD handles the rest.
 ```
-
----
-
-<a id="한국어"></a>
-
-<div align="center">
-
-## 한국어
-
-**AI는 코드를 만들어줍니다. 배포는 저희가 합니다.**
-
-CI/CD, 보안, 배포 파이프라인이 내장된 프로덕션 레디 스타터 템플릿.<br>
-레포를 Clone하세요. 앱을 만드세요. Push하면 배포됩니다.
-
-</div>
-
-### 스타터 목록
-
-| | 스타터 | 설명 |
-|---|--------|------|
-| 🐳 | **[docker-deploy-starter](https://github.com/starter-series/docker-deploy-starter)** | 언어 무관 → Docker → VPS SSH 배포 |
-| 🤖 | **[mcp-server-starter](https://github.com/starter-series/mcp-server-starter)** | TypeScript MCP 서버 → OIDC npm 배포 |
-| 📦 | **[npm-package-starter](https://github.com/starter-series/npm-package-starter)** | npm 패키지 → OIDC trusted publishing, 시크릿 제로 |
-| 🌐 | **[browser-extension-starter](https://github.com/starter-series/browser-extension-starter)** | MV3 확장 → Chrome Web Store + Firefox AMO |
-| 💻 | **[vscode-extension-starter](https://github.com/starter-series/vscode-extension-starter)** | VS Code 확장 → Marketplace + Open VSX |
-| 💬 | **[discord-bot-starter](https://github.com/starter-series/discord-bot-starter)** | Discord.js v14 봇 → Railway / Fly.io |
-| 📱 | **[telegram-bot-starter](https://github.com/starter-series/telegram-bot-starter)** | grammY 봇 → Railway / Fly.io |
-| 🖥️ | **[electron-app-starter](https://github.com/starter-series/electron-app-starter)** | 데스크톱 앱 → macOS / Windows / Linux |
-| 📲 | **[react-native-starter](https://github.com/starter-series/react-native-starter)** | Expo 앱 → App Store + Play Store |
-
-### 모든 스타터 공통 포함
-
-- **CI/CD** — GitHub Actions: 빌드, 테스트, 린트, 배포
-- **보안** — gitleaks, npm audit, 라이선스 검사, 권한 스코핑
-- **배포** — 플랫폼별 퍼블리싱 파이프라인
-- **Dependabot** — 그룹화된 의존성 업데이트 + 잠금파일 충돌 방지
-- **거버넌스** — 브랜치 보호, PR 템플릿, 이슈 템플릿
 
 ### 빠른 시작
 
