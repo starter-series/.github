@@ -24,6 +24,7 @@ Clone a repo. Write your app. Push to deploy.
 | 📱 | **[telegram-bot-starter](https://github.com/starter-series/telegram-bot-starter)** | grammY bot → Railway / Fly.io |
 | 🖥️ | **[electron-app-starter](https://github.com/starter-series/electron-app-starter)** | Desktop app → macOS / Windows / Linux |
 | 📲 | **[react-native-starter](https://github.com/starter-series/react-native-starter)** | Expo app → App Store + Play Store |
+| ☁️ | **[cloudflare-pages-starter](https://github.com/starter-series/cloudflare-pages-starter)** | Static site → Cloudflare Pages |
 
 ## Every Starter Includes
 
@@ -38,11 +39,4 @@ Clone a repo. Write your app. Push to deploy.
 ```bash
 gh repo create my-app --template starter-series/docker-deploy-starter
 # Write your app, then push — CI/CD handles the rest.
-```
-
-### 빠른 시작
-
-```bash
-gh repo create my-app --template starter-series/docker-deploy-starter
-# 앱을 작성하고 push하세요 — CI/CD가 나머지를 처리합니다.
 ```
