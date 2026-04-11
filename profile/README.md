@@ -17,6 +17,7 @@ Clone a repo. Write your app. Push to deploy.
 |---|---------|-------------|
 | 🐳 | **[docker-deploy-starter](https://github.com/starter-series/docker-deploy-starter)** | Any language → Docker → SSH deploy to any VPS |
 | 🤖 | **[mcp-server-starter](https://github.com/starter-series/mcp-server-starter)** | TypeScript MCP server → OIDC npm publish |
+| 🐍 | **[python-mcp-server-starter](https://github.com/starter-series/python-mcp-server-starter)** | Python MCP server → OIDC PyPI publish |
 | 📦 | **[npm-package-starter](https://github.com/starter-series/npm-package-starter)** | npm package → OIDC trusted publishing, zero secrets |
 | 🌐 | **[browser-extension-starter](https://github.com/starter-series/browser-extension-starter)** | MV3 extension → Chrome Web Store + Firefox AMO |
 | 💻 | **[vscode-extension-starter](https://github.com/starter-series/vscode-extension-starter)** | VS Code extension → Marketplace + Open VSX |
