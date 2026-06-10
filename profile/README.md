@@ -27,6 +27,13 @@ Clone a repo. Write your app. Push to deploy.
 | 📲 | **[react-native-starter](https://github.com/starter-series/react-native-starter)** | Expo app → App Store + Play Store |
 | ☁️ | **[cloudflare-pages-starter](https://github.com/starter-series/cloudflare-pages-starter)** | Static site → Cloudflare Pages |
 
+## Tooling
+
+| | Tool | What it does |
+|---|------|-------------|
+| 🚀 | **[create-starter](https://github.com/starter-series/create-starter)** | Scaffold any starter + audit existing repos — npx CLI · MCP server · Claude Code plugin |
+| 📸 | **[shotkit](https://github.com/starter-series/shotkit)** | Store/social asset capture (screenshots · promo tiles · demo video) from a built extension — npx CLI · Claude Code skill |
+
 ## Every Starter Includes
 
 - **CI/CD** — GitHub Actions: build, test, lint, deploy
