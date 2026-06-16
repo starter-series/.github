@@ -34,6 +34,13 @@ Clone a repo. Write your app. Push to deploy.
 | 🚀 | **[create-starter](https://github.com/starter-series/create-starter)** | Scaffold any starter + audit existing repos — npx CLI · MCP server · Claude Code plugin |
 | 📸 | **[shotkit](https://github.com/starter-series/shotkit)** | Store/social asset capture (screenshots · promo tiles · demo video) from a built extension — npx CLI · Claude Code skill |
 
+## Launch & Presence
+
+| | Tool | What it does |
+|---|------|-------------|
+| 🎨 | **[ProfileKit](https://github.com/starter-series/ProfileKit)** | Composable SVG cards for GitHub profiles, READMEs, dev blogs, and personal sites |
+| 🔌 | **[profilekit-mcp](https://github.com/starter-series/profilekit-mcp)** | Render ProfileKit cards from Claude Code, Codex, ChatGPT Apps, or any MCP-capable agent |
+
 ## Every Starter Includes
 
 - **CI/CD** — GitHub Actions: build, test, lint, deploy
