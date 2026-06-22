@@ -4,6 +4,21 @@ Starter templates, verification tooling, and launch/presence utilities for
 small software products.
 Each repo is the source of truth for its current CI, release, and package status.
 
+## First Commands
+
+Already have a repo? Run the dry-run check inside that repo:
+
+```bash
+cd path/to/your/repo
+npx @starter-series/create add-component
+```
+
+Starting from a starter instead?
+
+```bash
+gh repo create my-app --template starter-series/docker-deploy-starter
+```
+
 ## Starters
 
 | Starter | What it covers |
@@ -44,10 +59,3 @@ Use repo-local evidence rather than profile-page claims:
   for the broader health table and org-audit notes.
 - This profile intentionally avoids version, publish, CI-pass, and KPI claims
   that can drift.
-
-## Quick Start
-
-```bash
-gh repo create my-app --template starter-series/docker-deploy-starter
-# Write your app, then check the selected starter's README and workflows.
-```
