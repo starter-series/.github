@@ -1,23 +1,9 @@
 # Starter Series
 
-Starter templates, verification tooling, and launch/presence utilities for
-small software products.
+Production-ready starters for shipping software, with CI, security, release, and deployment paths pre-wired.
+
+One fleet of 11 starters, organized by what you want to deploy.
 Each repo is the source of truth for its current CI, release, and package status.
-
-## First Commands
-
-Already have a repo? Run the dry-run check inside that repo:
-
-```bash
-cd path/to/your/repo
-npx @starter-series/create add-component
-```
-
-Starting from a starter instead?
-
-```bash
-gh repo create my-app --template starter-series/docker-deploy-starter
-```
 
 ## Starters
 
@@ -35,19 +21,28 @@ gh repo create my-app --template starter-series/docker-deploy-starter
 | **[react-native-starter](https://github.com/starter-series/react-native-starter)** | Mobile app baseline with app-store workflows |
 | **[cloudflare-pages-starter](https://github.com/starter-series/cloudflare-pages-starter)** | Static site baseline with pages-deploy workflows |
 
-## Tooling
+## Quick start
+
+```bash
+gh repo create my-app --template starter-series/docker-deploy-starter --clone
+cd my-app
+```
+
+## create-starter
+
+The package metadata defines `starter-series` as the canonical npm name.
+The package is not yet available on npm; the following commands apply after publication.
+Use the GitHub template quick start above today.
+
+```bash
+npx starter-series --help
+# Inside an existing repository:
+npx starter-series add-component
+```
 
 | Tool | What it does |
 | --- | --- |
 | **[create-starter](https://github.com/starter-series/create-starter)** | Scaffolds starters and audits existing repos for release, CD, and security wiring |
-| **[shotkit](https://github.com/starter-series/shotkit)** | Captures store and social assets from built browser extensions |
-
-## Launch & Presence
-
-| Tool | What it does |
-| --- | --- |
-| **[ProfileKit](https://github.com/starter-series/ProfileKit)** | Builds composable SVG cards for profiles, READMEs, dev blogs, and personal sites |
-| **[profilekit-mcp](https://github.com/starter-series/profilekit-mcp)** | Renders ProfileKit cards through an MCP stdio surface |
 
 ## Receipts
 
