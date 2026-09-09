@@ -40,7 +40,7 @@ Release/store-specific Actions and credentials remain local in this migration.
 
 [Run Fleet maintenance](https://github.com/starter-series/.github/actions/workflows/fleet-maintenance.yml)
 executes fresh common security and dependency checks against each starter's `main` weekly.
-Deliverable health comes from the latest push CI for the current main commit.
+Deliverable health comes from the latest push or manually dispatched CI for the current main commit.
 Jobs have read-only tokens; only the separate report job can edit issues in this
 repository. No PAT, GitHub App, cross-repository writes or automated remediation.
 

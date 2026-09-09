@@ -21,7 +21,7 @@ function harness({existing,latestSuccess=true}={}) {
   ...(r.runtime==='python' ? ['3.11','3.12','3.13'].map(v=>({name:`${r.repo} / dependencies / python (${v})`,status:'completed',conclusion:'success',html_url:'https://example.com/run'})) : []),
  ]);
  const listJobs=()=>{},listIssues=()=>{};
- const github={rest:{actions:{listJobsForWorkflowRun:listJobs,listWorkflowRuns:async()=>({data:{workflow_runs:[{head_sha:'abcdefg',status:'completed',conclusion:latestSuccess?'success':'failure',html_url:'https://example.com/ci'}]}})},repos:{getCommit:async()=>({data:{sha:'abcdefg'}})},issues:{listForRepo:listIssues,create:async p=>calls.push(['create',p]),update:async p=>calls.push(['update',p])}},paginate:async fn=>fn===listJobs?jobs:(existing?[existing]:[])};
+ const github={rest:{actions:{listJobsForWorkflowRun:listJobs,listWorkflowRuns:async()=>({data:{workflow_runs:[{event:'push',head_sha:'abcdefg',status:'completed',conclusion:latestSuccess?'success':'failure',html_url:'https://example.com/ci'}]}})},repos:{getCommit:async()=>({data:{sha:'abcdefg'}})},issues:{listForRepo:listIssues,create:async p=>calls.push(['create',p]),update:async p=>calls.push(['update',p])}},paginate:async fn=>fn===listJobs?jobs:(existing?[existing]:[])};
  const core={summary:{addRaw(){return this},async write(){}},setFailed:m=>calls.push(['failed',m])};
  return {github,context:{repo:{owner:'starter-series',repo:'.github'},runId:1},core,calls,jobs};
 }
@@ -37,4 +37,15 @@ test('failed main CI creates one issue; identical failure does not churn it',asy
 test('missing one Python matrix cell never reports a healthy fleet',async()=>{
  const h=harness();h.jobs.splice(h.jobs.findIndex(j=>j.name.includes('python (3.13)')),1);
  await report(h);assert.ok(h.calls.some(c=>c[0]==='failed'));
+});
+
+test('manual current-main CI is accepted but a newer failed run is never hidden',async()=>{
+ const h=harness();
+ const good={event:'workflow_dispatch',head_sha:'abcdefg',status:'completed',conclusion:'success',html_url:'https://example.com/manual'};
+ h.github.rest.actions.listWorkflowRuns=async()=>({data:{workflow_runs:[{...good,event:'pull_request',conclusion:'failure'},good]}});
+ assert.ok((await report(h)).every(r=>r.state==='success'));
+ h.github.rest.actions.listWorkflowRuns=async()=>({data:{workflow_runs:[{...good,event:'push',conclusion:'failure'},good]}});
+ assert.ok((await report(h)).every(r=>r.state==='failure'));
+ h.github.rest.actions.listWorkflowRuns=async()=>({data:{workflow_runs:[{...good,head_sha:'older'}]}});
+ assert.ok((await report(h)).every(r=>r.state==='failure'));
 });
