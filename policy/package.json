@@ -1,0 +1,6 @@
+{
+  "name": "starter-series-security-policy",
+  "private": true,
+  "version": "1.0.0",
+  "dependencies": { "spdx-expression-parse": "5.0.0" }
+}

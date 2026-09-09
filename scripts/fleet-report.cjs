@@ -1,5 +1,6 @@
 const fs = require('node:fs');
 const fleet = require('../fleet.json');
+const exceptions = require('../policy/security-exceptions.json').exceptions;
 const marker = '<!-- starter-series:fleet-health -->';
 
 function classify(jobs) {
@@ -48,21 +49,23 @@ async function report({github, context, core}) {
     rows.map(r => `| ${r.repo} | ${r.state} | ${r.head} | ${r.latest} | ${r.details} |`).join('\n');
   const url = `https://github.com/${owner}/${repo}/actions/runs/${context.runId}`;
   const body = `${marker}\n# Starter Series fleet health\n\n[Maintenance run](${url})\n\n${table}\n\n` +
-    'Audits include development dependencies. Failures are not waived. Product-specific health is the latest push or manually dispatched CI on the current main commit; stale or missing runs fail health. ' +
+    'Audits include development dependencies. Findings outside the explicit central exception scope fail health. Product-specific health is the latest push or manually dispatched CI on the current main commit; stale or missing runs fail health. ' +
     'CodeQL runs on starter push/PR events; this central run does not upload analysis into another repository.\n';
-  await core.summary.addRaw(body).write();
+  const exceptionNote = '\nCentral time-limited exceptions (healthy does not mean vulnerability-free):\n' + exceptions.map(e => `- [${e.id}](https://github.com/${fleet.owner}/.github/blob/main/policy/security-exceptions.json): ${e.package}; review ${e.review}; expires ${e.expires}.`).join('\n') + '\n';
+  const reportBody = body + exceptionNote;
+  await core.summary.addRaw(reportBody).write();
   const existing = (await github.paginate(github.rest.issues.listForRepo,
     {owner, repo, state: 'all', creator: 'github-actions[bot]', per_page: 100}))
     .find(i => !i.pull_request && i.body?.startsWith(marker));
   // Signature excludes run URLs: unchanged failures do not churn the issue.
   const signature = JSON.stringify(rows.map(r => ({repo:r.repo,state:r.state,head:r.head,
-    steps:r.details.replace(/https:\/\/[^)]+/g,'run')})));
+    steps:r.details.replace(/https:\/\/[^)]+/g,'run')}))) + JSON.stringify(exceptions);
   const signatureMarker = `<!-- state:${Buffer.from(signature).toString('base64')} -->`;
   if (failed && !existing) {
-    await github.rest.issues.create({owner,repo,title:'Fleet maintenance health',body:body+signatureMarker});
+    await github.rest.issues.create({owner,repo,title:'Fleet maintenance health',body:reportBody+signatureMarker});
   } else if (existing && (!existing.body.includes(signatureMarker) || existing.state !== (failed ? 'open' : 'closed'))) {
     await github.rest.issues.update({owner,repo,issue_number:existing.number,
-      state:failed?'open':'closed',body:body+signatureMarker});
+      state:failed?'open':'closed',body:reportBody+signatureMarker});
   }
   if (failed) core.setFailed('Fleet maintenance has failed, pending, or missing checks. See the central summary.');
   return rows;

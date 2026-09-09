@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "exceptions": [
+    {
+      "id": "image-size-build-tooling-2026-09",
+      "package": "image-size",
+      "advisories": ["GHSA-w3rx-r6r6-pgpr", "GHSA-5p2g-fcmc-qvqq"],
+      "added": "2026-09-09",
+      "review": "2026-09-16",
+      "expires": "2026-09-23",
+      "reason": "No patched npm release exists: latest is 2.0.2, and both advisories affect <=2.0.2. Upgrading or downgrading within published versions does not remediate. A custom parser fork is not currently validated against the upstream toolchains.",
+      "risk": "Malformed ICNS/JXL/HEIF input can hang the Node event loop. Browser uses this through web-ext/addons-linter; Expo uses Metro during asset bundling. These are build/development paths, not application image-upload services. Untrusted PR assets can still cause CI denial of service. Read-only validation credentials and bounded job timeouts limit impact; downstream use on untrusted runtime images is outside this exception.",
+      "upstream": {
+        "checked": "2026-09-09",
+        "latestNpm": "2.0.2",
+        "release": "https://github.com/image-size/image-size/releases/tag/v2.0.2",
+        "status": "GitHub-reviewed advisories list no patched version. Referenced upstream PR 439 returns HTTP 404; no verified usable upstream fix.",
+        "urls": ["https://github.com/advisories/GHSA-w3rx-r6r6-pgpr", "https://github.com/advisories/GHSA-5p2g-fcmc-qvqq"]
+      },
+      "scope": [
+        {
+          "repository": "starter-series/browser-extension-starter",
+          "version": "2.0.2",
+          "nodes": ["node_modules/image-size"],
+          "parents": ["node_modules/addons-linter"],
+          "dependencyPaths": ["web-ext > addons-linter > image-size"]
+        },
+        {
+          "repository": "starter-series/react-native-starter",
+          "version": "1.2.1",
+          "nodes": ["node_modules/image-size"],
+          "parents": ["node_modules/@react-native/metro-config/node_modules/metro", "node_modules/metro"],
+          "dependencyPaths": ["@react-native/metro-config > metro > image-size", "react-native > @react-native/community-cli-plugin > metro > image-size", "expo > @expo/cli > metro > image-size"]
+        }
+      ]
+    }
+  ]
+}

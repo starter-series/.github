@@ -65,3 +65,11 @@ The last command checks all 11 local wrappers, local extensions, central call
 paths and policy boundaries. It reads only manifest-listed targets. Security
 failures remain failures; this migration does not update vulnerable dependencies
 or lower audit thresholds.
+
+## Security policy and temporary exceptions
+
+`policy/licenses.cjs` evaluates SPDX `OR` as a choice and `AND` as cumulative obligations. A `WITH` exception does not automatically waive a prohibited base license. Invalid expressions fail; the legacy npm `BSD` label remains allowed as before without inventing a clause identifier. `SEE LICENSE IN ...` metadata is a file reference, delegated to the mandatory installed-license scan rather than parsed as SPDX.
+
+`policy/security-exceptions.json` is the only exception source. The owner authorized a temporary image-size build-tooling exception on 2026-09-09, shared by Browser and Expo. Review: 2026-09-16. Expiry: 2026-09-23 at 00:00 UTC. Review due dates are surfaced in audit output; expiration fails the affected consumers until remediation or an explicitly reviewed policy change. New advisories, repos, versions and parent/node paths are not covered.
+
+All dependencies are still audited at high, including dev dependencies. The runner retains raw audit output and writes accepted risks/expiry to the Actions summary. Only exact advisory findings and their propagated npm meta-vulnerabilities can be accepted; audit execution/schema failures remain fatal. No ignore flags or per-consumer exception files are used. Node validation is bounded to 20 minutes and dependency checks to 10 minutes.

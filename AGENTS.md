@@ -3,7 +3,7 @@
 This repository is the CI/security/maintenance source of truth for `fleet.json`.
 Keep third-party Actions SHA-pinned. Keep Node audit at high including dev deps,
 strict Python audits, license gates, checksum-verified secret scanning and
-fail-closed check aggregation. Never turn a failed/skipped/missing run green.
+fail-closed check aggregation. Never turn a failed/skipped/missing run green. Owner-authorized security exceptions must be centralized, advisory/path/version scoped, time-limited and visible; audit errors and findings outside their exact scope must fail.
 
 Keep deliverable logic in each starter's `.github/actions/validate/action.yml`.
 Read-only validation jobs must not inherit publishing credentials. The fleet

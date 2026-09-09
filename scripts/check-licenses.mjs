@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 
 const lockfile = JSON.parse(readFileSync("package-lock.json", "utf8"));
 const packages = lockfile.packages ?? {};
-const bannedLicense = /(^|[^A-Z])(?:AGPL|GPL)-(?:2\.0|3\.0)(?:-only|-or-later)?([^A-Z]|$)/;
+import licenses from "../policy/licenses.cjs";
 const counts = new Map();
 const blocked = [];
 
@@ -15,7 +15,7 @@ for (const [path, meta] of Object.entries(packages)) {
     continue;
   }
   counts.set(license, (counts.get(license) ?? 0) + 1);
-  if (bannedLicense.test(license)) {
+  if (!licenses.isReference(license) && !licenses.allowed(license)) {
     blocked.push({ path, license });
   }
 }
