@@ -1,0 +1,16 @@
+name: setup-node
+description: Starter Series central setup-node
+inputs:
+  version:
+    description: Node runtime
+    default: '22'
+runs:
+  using: composite
+  steps:
+  - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+    with:
+      node-version: ${{ inputs.version }}
+      cache: npm
+  - name: Install dependencies
+    shell: bash
+    run: npm ci --ignore-scripts

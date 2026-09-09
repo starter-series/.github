@@ -1,0 +1,15 @@
+name: require-checks
+description: Starter Series central require-checks
+inputs:
+  results:
+    description: JSON needs context
+    required: true
+runs:
+  using: composite
+  steps:
+  - name: Require every check to succeed
+    shell: bash
+    run: node -e 'const jobs=JSON.parse(process.env.RESULTS); if(!Object.keys(jobs).length || Object.values(jobs).some(j=>j.result!=="success"))
+      process.exit(1)'
+    env:
+      RESULTS: ${{ inputs.results }}
