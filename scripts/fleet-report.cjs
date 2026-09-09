@@ -18,9 +18,11 @@ async function report({github, context, core}) {
     const matched = jobs.filter(j => j.name.startsWith(item.repo + ' /'))
       .filter(j => !(j.conclusion === 'skipped' && (
         (item.runtime === 'container' && j.name.includes('dependencies')) ||
-        (item.runtime === 'node' && j.name.endsWith(' / python')) ||
-        (item.runtime === 'python' && j.name.endsWith(' / node'))))); 
+        (item.runtime === 'node' && / \/ python(?: \(|$)/.test(j.name)) ||
+        (item.runtime === 'python' && / \/ node(?: \(|$)/.test(j.name))))); 
     let state = classify(matched);
+    const expected = item.runtime === 'python' ? 4 : item.runtime === 'node' ? 2 : 1;
+    if (matched.length !== expected) state = 'missing';
     const failures = matched.filter(j => j.conclusion !== 'success').map(j => {
       const step = (j.steps || []).find(s => s.conclusion === 'failure');
       return `[${step?.name || j.name.split(' / ').slice(1).join(' / ')}](${j.html_url})`;
