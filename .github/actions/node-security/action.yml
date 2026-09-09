@@ -1,15 +1,24 @@
 name: node-security
 description: Starter Series central node-security
-inputs: {}
+inputs:
+  repository:
+    description: Repository being audited; central fleet callers must pass the checkout target.
+    default: ${{ github.repository }}
 runs:
   using: composite
   steps:
   - name: Audit all dependencies
     shell: bash
-    run: npm audit --audit-level=high
+    run: node "$GITHUB_ACTION_PATH/../../../scripts/audit-node.cjs"
+    env:
+      FLEET_AUDIT_REPOSITORY: ${{ inputs.repository }}
   - name: Check installed licenses
     shell: bash
     run: npm exec --yes --package=license-checker-evergreen@6.3.1 -- license-checker-evergreen --failOn "GPL-2.0;GPL-3.0;AGPL-3.0"
+    if: ${{ !cancelled() }}
+  - name: Install pinned SPDX parser
+    shell: bash
+    run: npm ci --prefix "$GITHUB_ACTION_PATH/../../../policy" --ignore-scripts --no-audit --no-fund
     if: ${{ !cancelled() }}
   - name: Check lockfile licenses
     shell: bash

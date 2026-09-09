@@ -22,6 +22,8 @@ jobs:
       run: |-
         go install github.com/rhysd/actionlint/cmd/actionlint@v1.7.12
         "$(go env GOPATH)/bin/actionlint" .github/workflows/*.yml
+    - name: Install policy dependencies
+      run: npm ci --prefix policy --ignore-scripts --no-audit --no-fund
     - name: Test fail-closed reporting
       shell: bash
       run: node --test tests/*.test.cjs

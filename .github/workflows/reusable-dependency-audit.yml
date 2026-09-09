@@ -17,6 +17,7 @@ permissions:
   contents: read
 jobs:
   node:
+    timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
@@ -26,6 +27,8 @@ jobs:
         persist-credentials: false
     - uses: starter-series/.github/.github/actions/setup-node@main
     - uses: starter-series/.github/.github/actions/node-security@main
+      with:
+        repository: ${{ inputs.repository || github.repository }}
     if: inputs.runtime == 'node'
   python:
     runs-on: ubuntu-latest
