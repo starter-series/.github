@@ -1,0 +1,15 @@
+name: image-security
+description: Starter Series central image-security
+inputs:
+  image:
+    description: Locally built image
+    required: true
+runs:
+  using: composite
+  steps:
+  - uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25
+    with:
+      image-ref: ${{ inputs.image }}
+      exit-code: '1'
+      severity: CRITICAL
+      ignore-unfixed: true

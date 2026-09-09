@@ -1,0 +1,57 @@
+name: Fleet maintenance
+'on':
+  schedule:
+  - cron: 0 0 * * 1
+  workflow_dispatch: {}
+concurrency:
+  group: fleet-maintenance
+  cancel-in-progress: false
+permissions:
+  contents: read
+jobs:
+  inventory:
+    runs-on: ubuntu-latest
+    outputs:
+      fleet: ${{ steps.matrix.outputs.fleet }}
+    steps:
+    - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      with:
+        persist-credentials: false
+    - name: Load fleet manifest
+      shell: bash
+      run: |-
+        node - <<'JS'
+        const fs=require('node:fs');
+        fs.appendFileSync(process.env.GITHUB_OUTPUT, 'fleet='+JSON.stringify({include:require('./fleet.json').repositories})+'\n');
+        JS
+      id: matrix
+  report:
+    if: ${{ always() }}
+    needs:
+    - inventory
+    - health
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+      issues: write
+    steps:
+    - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      with:
+        persist-credentials: false
+    - uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3
+      with:
+        script: |-
+          const report = require('./scripts/fleet-report.cjs');
+          await report({github, context, core});
+  health:
+    name: ${{ matrix.repo }}
+    needs: inventory
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.inventory.outputs.fleet) }}
+    uses: ./.github/workflows/reusable-maintenance.yml
+    with:
+      repository: starter-series/${{ matrix.repo }}
+      ref: main
+      runtime: ${{ matrix.runtime }}

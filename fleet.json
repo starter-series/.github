@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "owner": "starter-series",
+  "repositories": [
+    {
+      "repo": "browser-extension-starter",
+      "runtime": "node",
+      "profile": "extension"
+    },
+    {
+      "repo": "cloudflare-pages-starter",
+      "runtime": "node",
+      "profile": "app"
+    },
+    {
+      "repo": "discord-bot-starter",
+      "runtime": "node",
+      "profile": "app"
+    },
+    {
+      "repo": "docker-deploy-starter",
+      "runtime": "container",
+      "profile": "app"
+    },
+    {
+      "repo": "electron-app-starter",
+      "runtime": "node",
+      "profile": "electron"
+    },
+    {
+      "repo": "mcp-server-starter",
+      "runtime": "node",
+      "profile": "app"
+    },
+    {
+      "repo": "npm-package-starter",
+      "runtime": "node",
+      "profile": "package"
+    },
+    {
+      "repo": "python-mcp-server-starter",
+      "runtime": "python",
+      "profile": "app"
+    },
+    {
+      "repo": "react-native-starter",
+      "runtime": "node",
+      "profile": "expo"
+    },
+    {
+      "repo": "telegram-bot-starter",
+      "runtime": "node",
+      "profile": "app"
+    },
+    {
+      "repo": "vscode-extension-starter",
+      "runtime": "node",
+      "profile": "extension"
+    }
+  ]
+}

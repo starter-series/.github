@@ -1,0 +1,25 @@
+name: Shared security
+'on':
+  workflow_call:
+    inputs:
+      repository:
+        type: string
+        default: ''
+        description: Public repository to validate; defaults to caller.
+      ref:
+        type: string
+        default: ''
+        description: Empty uses caller event commit; fleet maintenance supplies main.
+permissions:
+  contents: read
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      with:
+        repository: ${{ inputs.repository || github.repository }}
+        ref: ${{ inputs.ref }}
+        persist-credentials: false
+        fetch-depth: 0
+    - uses: starter-series/.github/.github/actions/source-security@main

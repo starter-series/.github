@@ -1,0 +1,9 @@
+name: docker-lint
+description: Starter Series central docker-lint
+inputs: {}
+runs:
+  using: composite
+  steps:
+  - uses: hadolint/hadolint-action@2332a7b74a6de0dda2e2221d575162eba76ba5e5
+    with:
+      dockerfile: Dockerfile

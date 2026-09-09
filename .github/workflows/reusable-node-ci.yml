@@ -1,0 +1,49 @@
+name: Node CI
+'on':
+  workflow_call:
+    inputs:
+      repository:
+        type: string
+        default: ''
+        description: Public repository to validate; defaults to caller.
+      ref:
+        type: string
+        default: ''
+        description: Empty uses caller event commit; fleet maintenance supplies main.
+      profile:
+        type: string
+        default: app
+        description: package tests Node 22 and 24; app, extension, electron, expo use Node 22.
+permissions:
+  contents: read
+jobs:
+  security:
+    uses: ./.github/workflows/reusable-security.yml
+    with:
+      repository: ${{ inputs.repository }}
+      ref: ${{ inputs.ref }}
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      with:
+        repository: ${{ inputs.repository || github.repository }}
+        ref: ${{ inputs.ref }}
+        persist-credentials: false
+    - uses: starter-series/.github/.github/actions/setup-node@main
+      with:
+        version: ${{ matrix.node }}
+    - name: Deliverable-specific validation
+      uses: ./.github/actions/validate
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ${{ fromJSON(inputs.profile == 'package' && '["22","24"]' || '["22"]') }}
+    env:
+      FLEET_NODE_VERSION: ${{ matrix.node }}
+  dependencies:
+    uses: ./.github/workflows/reusable-dependency-audit.yml
+    with:
+      runtime: node
+      repository: ${{ inputs.repository }}
+      ref: ${{ inputs.ref }}

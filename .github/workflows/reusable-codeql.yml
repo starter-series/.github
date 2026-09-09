@@ -1,0 +1,31 @@
+name: CodeQL policy
+'on':
+  workflow_call:
+    inputs:
+      language:
+        type: string
+        default: javascript-typescript
+permissions:
+  contents: read
+  security-events: write
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        language:
+        - ${{ inputs.language }}
+        - actions
+    steps:
+    - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      with:
+        persist-credentials: false
+    - uses: github/codeql-action/init@cdf488f595d80d6e07e03d4674febd5ab45fa938
+      with:
+        languages: ${{ matrix.language }}
+    - uses: github/codeql-action/autobuild@cdf488f595d80d6e07e03d4674febd5ab45fa938
+      if: matrix.language != 'actions'
+    - uses: github/codeql-action/analyze@cdf488f595d80d6e07e03d4674febd5ab45fa938
+      with:
+        category: /language:${{ matrix.language }}

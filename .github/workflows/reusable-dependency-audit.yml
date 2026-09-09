@@ -1,0 +1,55 @@
+name: Dependency policy
+'on':
+  workflow_call:
+    inputs:
+      repository:
+        type: string
+        default: ''
+        description: Public repository to validate; defaults to caller.
+      ref:
+        type: string
+        default: ''
+        description: Empty uses caller event commit; fleet maintenance supplies main.
+      runtime:
+        type: string
+        required: true
+permissions:
+  contents: read
+jobs:
+  node:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      with:
+        repository: ${{ inputs.repository || github.repository }}
+        ref: ${{ inputs.ref }}
+        persist-credentials: false
+    - uses: starter-series/.github/.github/actions/setup-node@main
+    - uses: starter-series/.github/.github/actions/node-security@main
+    if: inputs.runtime == 'node'
+  python:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python:
+        - '3.11'
+        - '3.12'
+        - '3.13'
+    steps:
+    - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      with:
+        repository: ${{ inputs.repository || github.repository }}
+        ref: ${{ inputs.ref }}
+        persist-credentials: false
+    - uses: starter-series/.github/.github/actions/setup-python@main
+      with:
+        version: ${{ matrix.python }}
+    - name: Dependency audit
+      shell: bash
+      run: pip-audit . --strict
+    - name: Check licenses
+      shell: bash
+      run: pip-licenses --fail-on="GPL-2.0;GPL-3.0;AGPL-3.0"
+      if: ${{ !cancelled() }}
+    if: inputs.runtime == 'python'

@@ -1,0 +1,30 @@
+name: Fresh maintenance audits
+'on':
+  workflow_call:
+    inputs:
+      repository:
+        type: string
+        default: ''
+        description: Public repository to validate; defaults to caller.
+      ref:
+        type: string
+        default: ''
+        description: Empty uses caller event commit; fleet maintenance supplies main.
+      runtime:
+        type: string
+        required: true
+permissions:
+  contents: read
+jobs:
+  source:
+    uses: ./.github/workflows/reusable-security.yml
+    with:
+      repository: ${{ inputs.repository }}
+      ref: ${{ inputs.ref }}
+  dependencies:
+    if: inputs.runtime != 'container'
+    uses: ./.github/workflows/reusable-dependency-audit.yml
+    with:
+      runtime: ${{ inputs.runtime }}
+      repository: ${{ inputs.repository }}
+      ref: ${{ inputs.ref }}
