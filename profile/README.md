@@ -30,19 +30,18 @@ cd my-app
 
 ## create-starter
 
-The package metadata defines `starter-series` as the canonical npm name.
-The package is not yet available on npm; the following commands apply after publication.
-Use the GitHub template quick start above today.
+Install or run the [`starter-series`](https://www.npmjs.com/package/starter-series) npm package (Node.js 22 or newer).
 
 ```bash
 npx starter-series --help
 # Inside an existing repository:
-npx starter-series add-component
+npx starter-series check
+npx starter-series check --instructions
 ```
 
 | Tool | What it does |
 | --- | --- |
-| **[create-starter](https://github.com/starter-series/create-starter)** | Scaffolds starters and audits existing repos for release, CD, and security wiring |
+| **[create-starter](https://github.com/starter-series/create-starter)** | Scaffolds starters and audits existing repos for release, CD, security, and instruction checks |
 
 ## Receipts
 
