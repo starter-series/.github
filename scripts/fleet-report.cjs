@@ -33,8 +33,8 @@ async function report({github, context, core}) {
       const {data: commit} = await github.rest.repos.getCommit({owner: fleet.owner, repo: item.repo, ref: 'main'});
       head = commit.sha.slice(0, 7);
       const {data} = await github.rest.actions.listWorkflowRuns({owner: fleet.owner, repo: item.repo,
-        workflow_id: 'ci.yml', branch: 'main', event: 'push', per_page: 1});
-      const run = data.workflow_runs[0];
+        workflow_id: 'ci.yml', branch: 'main', per_page: 100});
+      const run = data.workflow_runs.find(r => ['push', 'workflow_dispatch'].includes(r.event));
       if (!run || run.head_sha !== commit.sha || run.status !== 'completed' || run.conclusion !== 'success') state = 'failure';
       latest = run ? `[${run.conclusion || run.status}](${run.html_url})${run.head_sha !== commit.sha ? ' (stale head)' : ''}` : 'missing';
     } catch (error) {
@@ -44,11 +44,11 @@ async function report({github, context, core}) {
     rows.push({repo: item.repo, state, head, latest, details: failures.join('<br>') || 'All fresh maintenance jobs passed'});
   }
   const failed = rows.some(r => r.state !== 'success');
-  const table = '| Starter | Fresh maintenance | Current main | Latest push CI | Details |\n|---|---|---|---|---|\n' +
+  const table = '| Starter | Fresh maintenance | Current main | Latest main CI | Details |\n|---|---|---|---|---|\n' +
     rows.map(r => `| ${r.repo} | ${r.state} | ${r.head} | ${r.latest} | ${r.details} |`).join('\n');
   const url = `https://github.com/${owner}/${repo}/actions/runs/${context.runId}`;
   const body = `${marker}\n# Starter Series fleet health\n\n[Maintenance run](${url})\n\n${table}\n\n` +
-    'Audits include development dependencies. Failures are not waived. Product-specific health is the latest push CI on the current main commit; stale or missing runs fail health. ' +
+    'Audits include development dependencies. Failures are not waived. Product-specific health is the latest push or manually dispatched CI on the current main commit; stale or missing runs fail health. ' +
     'CodeQL runs on starter push/PR events; this central run does not upload analysis into another repository.\n';
   await core.summary.addRaw(body).write();
   const existing = (await github.paginate(github.rest.issues.listForRepo,
