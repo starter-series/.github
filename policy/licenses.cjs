@@ -12,4 +12,7 @@ function allowed(expression) {
   if (expression === 'BSD') return true;
   try { return permitted(parse(expression)); } catch { return false; }
 }
-module.exports = {allowed};
+// A license-file pointer is not an SPDX expression. The mandatory installed
+// license scan reads the referenced license; the lockfile gate cannot.
+const isReference = expression => /^SEE LICENSE IN \S.*$/.test(expression);
+module.exports = {allowed, isReference};

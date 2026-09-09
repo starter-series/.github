@@ -15,7 +15,7 @@ for (const [path, meta] of Object.entries(packages)) {
     continue;
   }
   counts.set(license, (counts.get(license) ?? 0) + 1);
-  if (!licenses.allowed(license)) {
+  if (!licenses.isReference(license) && !licenses.allowed(license)) {
     blocked.push({ path, license });
   }
 }

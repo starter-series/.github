@@ -68,7 +68,7 @@ or lower audit thresholds.
 
 ## Security policy and temporary exceptions
 
-`policy/licenses.cjs` evaluates SPDX `OR` as a choice and `AND` as cumulative obligations. A `WITH` exception does not automatically waive a prohibited base license. Invalid expressions fail; the legacy npm `BSD` label remains allowed as before without inventing a clause identifier.
+`policy/licenses.cjs` evaluates SPDX `OR` as a choice and `AND` as cumulative obligations. A `WITH` exception does not automatically waive a prohibited base license. Invalid expressions fail; the legacy npm `BSD` label remains allowed as before without inventing a clause identifier. `SEE LICENSE IN ...` metadata is a file reference, delegated to the mandatory installed-license scan rather than parsed as SPDX.
 
 `policy/security-exceptions.json` is the only exception source. The owner authorized a temporary image-size build-tooling exception on 2026-09-09, shared by Browser and Expo. Review: 2026-09-16. Expiry: 2026-09-23 at 00:00 UTC. Review due dates are surfaced in audit output; expiration fails the affected consumers until remediation or an explicitly reviewed policy change. New advisories, repos, versions and parent/node paths are not covered.
 

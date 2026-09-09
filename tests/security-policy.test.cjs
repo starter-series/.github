@@ -1,8 +1,13 @@
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
-const {allowed}=require('../policy/licenses.cjs');
+const {allowed,isReference}=require('../policy/licenses.cjs');
 const {evaluate}=require('../policy/audit.cjs');
 const policy=require('../policy/security-exceptions.json');
+test('license-file metadata is delegated to the installed scan, not accepted as SPDX',()=>{
+ assert.equal(isReference('SEE LICENSE IN LICENSE.txt'),true);
+ assert.equal(allowed('SEE LICENSE IN LICENSE.txt'),false);
+ assert.equal(isReference('MIT garbage'),false);
+});
 test('SPDX boolean expressions preserve prohibited obligations',()=>{
  for(const s of ['BSD','MIT OR Apache-2.0','(MIT OR GPL-3.0-or-later)','(BSD-3-Clause OR GPL-2.0)','MIT AND Apache-2.0','MIT OR (GPL-3.0 AND Apache-2.0)']) assert.equal(allowed(s),true,s);
  for(const s of ['GPL-3.0-only','MIT AND GPL-3.0-or-later','(MIT OR Apache-2.0) AND AGPL-3.0','GPL-2.0-only WITH Classpath-exception-2.0','MIT OR','MIT garbage']) assert.equal(allowed(s),false,s);
