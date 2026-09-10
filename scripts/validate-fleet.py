@@ -17,15 +17,23 @@ def main():
     for item in fleet:
         repo=args.root/item['repo'];workflow=load(repo/'.github/workflows/ci.yml')
         call=workflow['jobs']['checks']['uses']
-        expected=f"starter-series/.github/.github/workflows/reusable-{item['runtime']}-ci.yml@main"
-        assert call==expected,(item['repo'],call)
+        expected=f"starter-series/.github/.github/workflows/reusable-{item['runtime']}-ci.yml@"
+        assert call.startswith(expected) and re.fullmatch(r"[0-9a-f]{40}",call[len(expected):]),(item['repo'],call)
+        for path in (repo/'.github').rglob('*.yml'):
+            for target in re.findall(r'uses:\s*[\'\"]?([^\s\'\"]+)',path.read_text()):
+                if target.startswith('starter-series/.github/'):
+                    assert re.search(r'@[0-9a-f]{40}$',target),(item['repo'],target)
         assert (repo/'.github/actions/validate/action.yml').is_file()
         assert workflow['jobs']['ci']['if']=='${{ always() }}'
         assert set(workflow['jobs']['ci']['needs'])==set(workflow['jobs'])-{'ci'}
         for file in ['ci.yml','codeql.yml','maintenance.yml']:
             d=load(repo/'.github/workflows'/file)
             assert 'schedule' not in d['on'],(item['repo'],file)
-            text=(repo/'.github/workflows'/file).read_text()
+            # Only the explicit Windows portability job may set up its own runtime.
+            if file == 'ci.yml' and 'portability' in d['jobs']:
+                portability=d['jobs'].pop('portability')
+                assert portability['runs-on']=='windows-latest'
+            text=yaml.safe_dump(d)
             for banned in ['npm audit','gitleaks','license-checker','setup-node@','setup-python@','issues.create','issues.update']:
                 assert banned not in text,(item['repo'],file,banned)
         extension=(repo/'.github/actions/validate/action.yml').read_text()
@@ -37,6 +45,7 @@ def main():
             if target.startswith('./.github/workflows/'):
                 assert (central/target[2:]).is_file(),target
             elif target.startswith('starter-series/.github/'):
+                assert re.search(r'@[0-9a-f]{40}$',target),target
                 rel=target.split('@')[0][len('starter-series/.github/'):]
                 local=central/rel
                 assert local.is_file() or (local/'action.yml').is_file(),target

@@ -13,7 +13,7 @@ name: Node CI
       profile:
         type: string
         default: app
-        description: package tests Node 22 and 24; app, extension, electron, expo use Node 22.
+        description: package and bot test Node 22 and 24; app, extension, electron, expo use Node 22.
 permissions:
   contents: read
 jobs:
@@ -31,7 +31,7 @@ jobs:
         repository: ${{ inputs.repository || github.repository }}
         ref: ${{ inputs.ref }}
         persist-credentials: false
-    - uses: starter-series/.github/.github/actions/setup-node@main
+    - uses: starter-series/.github/.github/actions/setup-node@d326229e33c21461b1a79a49de6f95f4ea1f4aaf
       with:
         version: ${{ matrix.node }}
     - name: Deliverable-specific validation
@@ -39,7 +39,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: ${{ fromJSON(inputs.profile == 'package' && '["22","24"]' || '["22"]') }}
+        node: ${{ fromJSON((inputs.profile == 'package' || inputs.profile == 'bot') && '["22","24"]' || '["22"]') }}
     env:
       FLEET_NODE_VERSION: ${{ matrix.node }}
   dependencies:

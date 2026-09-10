@@ -11,3 +11,5 @@ report may write only this repository's single health issue, never consumer repo
 
 Run actionlint, tests/fleet-report.test.cjs and scripts/validate-fleet.py before
 publishing policy changes. Do not touch independent products or CLI architecture.
+
+Pin shared workflow and composite-action references to full commit SHAs, including internal calls. Dependabot opens weekly update PRs. Consumer references should point to a reviewed central commit; never use a moving branch in template CI.

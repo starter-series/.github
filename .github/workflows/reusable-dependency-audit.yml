@@ -25,8 +25,8 @@ jobs:
         repository: ${{ inputs.repository || github.repository }}
         ref: ${{ inputs.ref }}
         persist-credentials: false
-    - uses: starter-series/.github/.github/actions/setup-node@main
-    - uses: starter-series/.github/.github/actions/node-security@main
+    - uses: starter-series/.github/.github/actions/setup-node@d326229e33c21461b1a79a49de6f95f4ea1f4aaf
+    - uses: starter-series/.github/.github/actions/node-security@d326229e33c21461b1a79a49de6f95f4ea1f4aaf
       with:
         repository: ${{ inputs.repository || github.repository }}
     if: inputs.runtime == 'node'
@@ -45,7 +45,7 @@ jobs:
         repository: ${{ inputs.repository || github.repository }}
         ref: ${{ inputs.ref }}
         persist-credentials: false
-    - uses: starter-series/.github/.github/actions/setup-python@main
+    - uses: starter-series/.github/.github/actions/setup-python@d326229e33c21461b1a79a49de6f95f4ea1f4aaf
       with:
         version: ${{ matrix.python }}
     - name: Dependency audit
