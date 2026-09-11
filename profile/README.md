@@ -2,7 +2,7 @@
 
 Production-ready starters for shipping software, with CI, security, release, and deployment paths pre-wired.
 
-One fleet of 11 starters, organized by what you want to deploy.
+One fleet of 6 public starters, organized by what you want to deploy.
 Each repo is the source of truth for its current CI, release, and package status.
 
 ## Starters
@@ -15,11 +15,6 @@ Each repo is the source of truth for its current CI, release, and package status
 | **[npm-package-starter](https://github.com/starter-series/npm-package-starter)** | npm package baseline with trusted publishing workflows |
 | **[browser-extension-starter](https://github.com/starter-series/browser-extension-starter)** | Browser extension baseline with store-release workflows |
 | **[vscode-extension-starter](https://github.com/starter-series/vscode-extension-starter)** | Editor extension baseline with marketplace workflows |
-| **[discord-bot-starter](https://github.com/starter-series/discord-bot-starter)** | Chat bot baseline with deploy workflows |
-| **[telegram-bot-starter](https://github.com/starter-series/telegram-bot-starter)** | Chat bot baseline with polling and webhook modes |
-| **[electron-app-starter](https://github.com/starter-series/electron-app-starter)** | Desktop app baseline with packaging workflows |
-| **[react-native-starter](https://github.com/starter-series/react-native-starter)** | Mobile app baseline with app-store workflows |
-| **[cloudflare-pages-starter](https://github.com/starter-series/cloudflare-pages-starter)** | Static site baseline with pages-deploy workflows |
 
 ## Quick start
 

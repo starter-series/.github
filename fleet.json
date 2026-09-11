@@ -8,24 +8,9 @@
       "profile": "extension"
     },
     {
-      "repo": "cloudflare-pages-starter",
-      "runtime": "node",
-      "profile": "app"
-    },
-    {
-      "repo": "discord-bot-starter",
-      "runtime": "node",
-      "profile": "app"
-    },
-    {
       "repo": "docker-deploy-starter",
       "runtime": "container",
       "profile": "app"
-    },
-    {
-      "repo": "electron-app-starter",
-      "runtime": "node",
-      "profile": "electron"
     },
     {
       "repo": "mcp-server-starter",
@@ -40,16 +25,6 @@
     {
       "repo": "python-mcp-server-starter",
       "runtime": "python",
-      "profile": "app"
-    },
-    {
-      "repo": "react-native-starter",
-      "runtime": "node",
-      "profile": "expo"
-    },
-    {
-      "repo": "telegram-bot-starter",
-      "runtime": "node",
       "profile": "app"
     },
     {

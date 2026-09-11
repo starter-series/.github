@@ -1,12 +1,12 @@
 # Starter Series fleet operations
 
 This repository owns common CI, security and weekly maintenance policy for the
-11 distribution targets in [fleet.json](fleet.json). Change shared policy here,
+6 public distribution targets in [fleet.json](fleet.json). Change shared policy here,
 not in each starter. `create-starter` can consume the versioned JSON inventory.
 
 | Execution family | Reusable workflow | Targets |
 |---|---|---|
-| Node (app, extension, Electron, Expo profiles) | `reusable-node-ci.yml` | cloudflare-pages, discord-bot, telegram-bot, mcp-server, browser-extension, vscode-extension, electron-app, react-native starters |
+| Node (app, extension, Electron, Expo profiles) | `reusable-node-ci.yml` | mcp-server, browser-extension, vscode-extension starters |
 | Node package (22 + 24 matrix) | `reusable-node-ci.yml` | npm-package-starter |
 | Python package (3.11–3.13) | `reusable-python-ci.yml` | python-mcp-server-starter |
 | Docker | `reusable-container-ci.yml` | docker-deploy-starter |
@@ -61,7 +61,7 @@ node --test tests/*.test.cjs
 python3 scripts/validate-fleet.py --root ../
 ```
 
-The last command checks all 11 local wrappers, local extensions, central call
+The last command checks all 6 local wrappers, local extensions, central call
 paths and policy boundaries. It reads only manifest-listed targets. Security
 failures remain failures; this migration does not update vulnerable dependencies
 or lower audit thresholds.
