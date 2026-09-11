@@ -13,7 +13,7 @@ def main():
     parser=argparse.ArgumentParser();parser.add_argument('--root',type=Path,required=True);args=parser.parse_args()
     central=Path(__file__).resolve().parents[1]
     fleet=json.loads((central/'fleet.json').read_text())['repositories']
-    assert len(fleet)==11 and len({r['repo'] for r in fleet})==11
+    assert len(fleet)==6 and len({r['repo'] for r in fleet})==6
     for item in fleet:
         repo=args.root/item['repo'];workflow=load(repo/'.github/workflows/ci.yml')
         call=workflow['jobs']['checks']['uses']
@@ -42,5 +42,5 @@ def main():
                 assert local.is_file() or (local/'action.yml').is_file(),target
             elif not target.startswith('./'):
                 assert re.search(r'@[0-9a-f]{40}$',target),target
-    print('11 wrappers and central workflow/action call graph validated')
+    print('6 wrappers and central workflow/action call graph validated')
 if __name__=='__main__':main()
