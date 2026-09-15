@@ -26,7 +26,7 @@ jobs:
         repository: ${{ inputs.repository || github.repository }}
         ref: ${{ inputs.ref }}
         persist-credentials: false
-    - uses: starter-series/.github/.github/actions/setup-python@main
+    - uses: starter-series/.github/.github/actions/setup-python@d326229e33c21461b1a79a49de6f95f4ea1f4aaf
       with:
         version: ${{ matrix.python }}
     - name: Deliverable-specific validation

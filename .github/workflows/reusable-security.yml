@@ -22,4 +22,4 @@ jobs:
         ref: ${{ inputs.ref }}
         persist-credentials: false
         fetch-depth: 0
-    - uses: starter-series/.github/.github/actions/source-security@main
+    - uses: starter-series/.github/.github/actions/source-security@d326229e33c21461b1a79a49de6f95f4ea1f4aaf
